@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+	
+	<properties resource="config.properties"/>
+
+  <context id="context1">
+    <jdbcConnection connectionURL="${jdbc.url}" driverClass="${jdbc.driverClassName}" password="${jdbc.password}" userId="${jdbc.username}" />
+    <javaModelGenerator targetPackage="${mybatis.generator.project}.model" targetProject="${mybatis.generator.project}" />
+    <sqlMapGenerator targetPackage="${mybatis.generator.project}.dao" targetProject="${mybatis.generator.project}" />
+    <javaClientGenerator targetPackage="${mybatis.generator.project}.dao" targetProject="${mybatis.generator.project}" type="XMLMAPPER" />
+   
+    <!-- 资源组类型元表 -->
+    <table schema="${mybatis.generator.schema}" tableName="rm_meta_resource_group_type_t">
+      <columnOverride column="id" />
+      <columnOverride column="name"  />
+      <columnOverride column="description" />
+    </table>
+    <!-- 资源组表 -->
+    <table schema="${mybatis.generator.schema}" tableName="rm_resource_group_t">
+      <columnOverride column="id" />
+      <columnOverride column="name"  />
+      <columnOverride column="group_type_id" />
+    </table>
+    <!-- 资源实例表 -->
+    <table schema="${mybatis.generator.schema}" tableName="rm_resource_instance_t">
+      <columnOverride column="id" />
+      <columnOverride column="name" />
+    </table>
+    <!-- 资源节点表 -->
+    <table schema="${mybatis.generator.schema}" tableName="rm_resource_node_t" >
+      <generatedKey column="id" sqlStatement="MySql"  identity="true" type="post"/> 
+      <columnOverride column="ri_id"/>
+      <columnOverride column="name"/>
+      <columnOverride column="parent_id" />
+      <columnOverride column="group_id"/>
+      <columnOverride column="is_root"/>
+    </table>
+    <!-- 范围元表 -->
+    <table schema="${mybatis.generator.schema}" tableName="rm_meta_scope_t" >
+      <generatedKey column="id" sqlStatement="MySql"  identity="true" type="post"/> 
+      <columnOverride column="name"/>
+	 <columnOverride column="description"/>
+    </table>
+ 	<!-- 资源监视表 -->
+    <table schema="${mybatis.generator.schema}" tableName="rm_resource_monitor_t" >
+      <generatedKey column="id" sqlStatement="MySql"  identity="true" type="post"/> 
+      <columnOverride column="ri_id"/>
+	 <columnOverride column="status"/>
+    </table>
+  </context>
+</generatorConfiguration>

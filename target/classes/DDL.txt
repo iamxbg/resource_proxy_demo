@@ -1,0 +1,49 @@
+CREATE TABLE `rm_resource_node_t` (
+  `id` int(11) NOT NULL,
+  `ri_id` int(11) NOT NULL COMMENT '资源实例id',
+  `name` varchar(20) DEFAULT NULL COMMENT '节点名称,可以为空;如果为空,使用资源名称',
+  `parent_id` int(11) DEFAULT NULL COMMENT '父节点id',
+  `group_id` int(11) NOT NULL COMMENT '资源组id',
+  `is_root` tinyint(4) DEFAULT '0' COMMENT 'root节点?',
+  KEY `group_id` (`group_id`),
+  KEY `ri_id` (`ri_id`),
+  CONSTRAINT `rm_resource_node_t_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `rm_resource_group_t` (`id`),
+  CONSTRAINT `rm_resource_node_t_ibfk_2` FOREIGN KEY (`ri_id`) REFERENCES `rm_resource_instance_t` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='资源组节点node表';
+
+CREATE TABLE `rm_resource_monitor_t` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `ri_id` int(11) NOT NULL COMMENT 'resourceInstance的id',
+  `status` tinyint(4) DEFAULT '1' COMMENT '1监控中,0禁用',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='资源实例的监控状态列表';
+
+CREATE TABLE `rm_resource_instance_t` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(40) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='资源实例表';
+
+CREATE TABLE `rm_resource_group_t` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL COMMENT '分组名称',
+  `group_type_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `group_type_id` (`group_type_id`),
+  CONSTRAINT `rm_resource_group_t_ibfk_1` FOREIGN KEY (`group_type_id`) REFERENCES `rm_meta_resource_group_type_t` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='资源分组表';
+
+CREATE TABLE `rm_meta_scope_t` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(40) NOT NULL,
+  `description` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `rm_meta_resource_group_type_t` (
+  `id` int(11) NOT NULL,
+  `name` varchar(20) NOT NULL,
+  `description` varchar(200) DEFAULT NULL,
+  `editable` tinyint(4) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='资源组类型元表';
